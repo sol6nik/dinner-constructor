@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 public class DinnerConstructor {
     private HashMap<String, ArrayList<String>> dishes;
+    private Random random = new Random();  // Поле класса, создаётся один раз
+    private Scanner scanner = new Scanner(System.in);
 
     public DinnerConstructor() {
         dishes = new HashMap<>();
@@ -27,7 +29,7 @@ public class DinnerConstructor {
                 return true;
             }
         } else {
-            ArrayList<String> newDishList = new ArrayList<>();
+            final ArrayList<String> newDishList = new ArrayList<>();
             newDishList.add(dishName);
             dishes.put(dishType, newDishList);
             return true;
@@ -36,22 +38,18 @@ public class DinnerConstructor {
 
     // метод для генерации комбинаций блюд
     public void generateCombos(int numberOfCombos, ArrayList<String> dishTypes) {
-        Random random = new Random();
         for (int i = 1; i <= numberOfCombos; i++) {
             System.out.println("Комбинация блюд " + i + ":");
             for (String dishType : dishTypes) {
                 while (!dishes.containsKey(dishType)) {
                     System.out.println("Нет блюд типа '" + dishType + "'. Введите другие типы:");
-                    Scanner scanner = new Scanner(System.in);
-                    dishType = scanner.nextLine();
+                    dishType = scanner.nextLine();  // Используем уже созданный объект Scanner
                 }
                 ArrayList<String> availableDishes = dishes.get(dishType);
-                int randomIndex = random.nextInt(availableDishes.size());
+                int randomIndex = random.nextInt(availableDishes.size());  // Используем уже созданный объект Random
                 String dish = availableDishes.get(randomIndex);
                 System.out.println("- " + dish);
             }
-
-            // пустая строка между комбинациями
             System.out.println();
         }
     }
